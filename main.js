@@ -237,19 +237,16 @@ saveSettingsBtn.addEventListener('click', () => {
     const newShortBreak = parseInt(shortBreakDurationInput.value, 10);
     const newLongBreak = parseInt(longBreakDurationInput.value, 10);
 
-    if (newPomodoro > 0 && newShortBreak > 0 && newLongBreak > 0) {
+    if (!isNaN(newPomodoro) && !isNaN(newShortBreak) && !isNaN(newLongBreak) && newPomodoro > 0 && newShortBreak > 0 && newLongBreak > 0) {
         modes.pomodoro = newPomodoro * 60;
         modes.shortBreak = newShortBreak * 60;
         modes.longBreak = newLongBreak * 60;
         
         settingsModal.style.display = 'none';
         
-        // if the current mode is one of the ones that changed, reset the timer
-        if (currentMode === 'pomodoro' || currentMode === 'shortBreak' || currentMode === 'longBreak') {
-            switchMode(currentMode);
-        }
+        resetTimer();
     } else {
-        alert("Please enter valid durations (greater than 0).");
+        alert("Please enter valid, positive numbers for all durations.");
     }
 });
 
