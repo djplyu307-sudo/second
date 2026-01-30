@@ -18,6 +18,15 @@ const quoteText = document.getElementById('quote-text');
 const quoteAuthor = document.getElementById('quote-author');
 const shareBtn = document.getElementById('share');
 
+const settingsBtn = document.getElementById('settings-btn');
+const settingsModal = document.getElementById('settings-modal');
+const closeBtn = document.querySelector('.close-btn');
+const saveSettingsBtn = document.getElementById('save-settings');
+const pomodoroDurationInput = document.getElementById('pomodoro-duration');
+const shortBreakDurationInput = document.getElementById('short-break-duration');
+const longBreakDurationInput = document.getElementById('long-break-duration');
+
+
 // --- Timer State ---
 let timer;
 let isRunning = false;
@@ -108,8 +117,6 @@ function updateBackground() {
  */
 function switchMode(mode) {
     currentMode = mode;
-    seconds = modes[mode];
-    updateTime();
     resetTimer();
 
     modeBtns.forEach(btn => {
@@ -170,9 +177,13 @@ function pauseTimer() {
  * Resets the timer to the current mode's starting time.
  */
 function resetTimer() {
-    pauseTimer();
+    clearInterval(timer);
+    isRunning = false;
+    startBtn.style.display = 'block';
+    pauseBtn.style.display = 'none';
     seconds = modes[currentMode];
     updateTime();
+    document.title = "Pomodoro & Lo-fi Timer";
 }
 
 /**
@@ -207,10 +218,49 @@ pauseMusicBtn.addEventListener('click', () => player.pauseVideo());
 volumeSlider.addEventListener('input', (e) => player.setVolume(e.target.value));
 shareBtn.addEventListener('click', shareQuote);
 
+settingsBtn.addEventListener('click', () => {
+    settingsModal.style.display = 'flex';
+});
+
+closeBtn.addEventListener('click', () => {
+    settingsModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target == settingsModal) {
+        settingsModal.style.display = 'none';
+    }
+});
+
+saveSettingsBtn.addEventListener('click', () => {
+    const newPomodoro = parseInt(pomodoroDurationInput.value, 10);
+    const newShortBreak = parseInt(shortBreakDurationInput.value, 10);
+    const newLongBreak = parseInt(longBreakDurationInput.value, 10);
+
+    if (newPomodoro > 0 && newShortBreak > 0 && newLongBreak > 0) {
+        modes.pomodoro = newPomodoro * 60;
+        modes.shortBreak = newShortBreak * 60;
+        modes.longBreak = newLongBreak * 60;
+        
+        settingsModal.style.display = 'none';
+        
+        // if the current mode is one of the ones that changed, reset the timer
+        if (currentMode === 'pomodoro' || currentMode === 'shortBreak' || currentMode === 'longBreak') {
+            switchMode(currentMode);
+        }
+    } else {
+        alert("Please enter valid durations (greater than 0).");
+    }
+});
+
 /**
  * Initializes the application.
  */
 function init() {
+    pomodoroDurationInput.value = modes.pomodoro / 60;
+    shortBreakDurationInput.value = modes.shortBreak / 60;
+    longBreakDurationInput.value = modes.longBreak / 60;
+
     switchMode('pomodoro');
     fetchQuote();
     updateBackground();

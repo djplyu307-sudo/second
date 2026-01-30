@@ -9,9 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
     <div id="app">
         <div class="card timer-card">
+            <button id="settings-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
             <div id="timer-mode">
                 <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
                 <button class="mode-btn" data-mode="shortBreak">Short Break</button>
@@ -26,8 +28,8 @@
         </div>
 
         <div class="card music-card">
-            <h2>Music</h2>
-            <div id="youtube-player"></div>
+            <h2>Music Controls</h2>
+            <div id="youtube-player" style="display: none;"></div>
             <div id="music-controls">
                 <button id="play-music">Play</button>
                 <button id="pause-music" style="display: none;">Pause</button>
@@ -39,6 +41,26 @@
              <p id="quote-text">"The secret of getting ahead is getting started."</p>
              <p id="quote-author">- Mark Twain</p>
             <button id="share">Share</button>
+        </div>
+    </div>
+
+    <div id="settings-modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Timer Settings</h2>
+            <div class="setting">
+                <label for="pomodoro-duration">Pomodoro (minutes)</label>
+                <input type="number" id="pomodoro-duration" min="1" value="25">
+            </div>
+            <div class="setting">
+                <label for="short-break-duration">Short Break (minutes)</label>
+                <input type="number" id="short-break-duration" min="1" value="5">
+            </div>
+            <div class="setting">
+                <label for="long-break-duration">Long Break (minutes)</label>
+                <input type="number" id="long-break-duration" min="1" value="15">
+            </div>
+            <button id="save-settings">Save</button>
         </div>
     </div>
 
